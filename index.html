@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Cool Incense - Modern Home Fragrance</title>
+    <!-- Include Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Include Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <!-- Tailwind Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <!-- Custom Styles -->
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .misty-overlay {
+            background: linear-gradient(0deg, rgba(16, 25, 34, 0.9) 0%, rgba(16, 25, 34, 0.4) 50%, rgba(16, 25, 34, 0) 100%);
+        }
+        .form-input:focus {
+            border-color: #137fec !important;
+            box-shadow: 0 0 0 1px #137fec !important;
+        }
+        .payment-radio:checked + div {
+            border-color: #137fec;
+            background-color: rgba(19, 127, 236, 0.05);
+        }
+        .glass-panel {
+            background: rgba(40, 48, 57, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Navigation indicator */
+        .nav-indicator {
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #137fec;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .nav-item:hover .nav-indicator {
+            transform: scaleX(1);
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 selection:bg-primary/30">
+    <!-- Navigation -->
+    <nav class="fixed top-0 z-50 w-full border-b border-white/10 bg-background-dark/80 backdrop-blur-md px-6 lg:px-40 py-4">
+        <div class="mx-auto flex max-w-[1200px] items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="text-primary">
+                    <svg class="size-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13.8261 17.4264C16.7203 18.1174 20.2244 18.5217 24 18.5217C27.7756 18.5217 31.2797 18.1174 34.1739 17.4264C36.9144 16.7722 39.9967 15.2331 41.3563 14.1648L24.8486 40.6391C24.4571 41.267 23.5429 41.267 23.1514 40.6391L6.64374 14.1648C8.00331 15.2331 11.0856 16.7722 13.8261 17.4264Z" fill="currentColor"></path>
+                        <path clip-rule="evenodd" d="M39.998 12.236C39.9944 12.2537 39.9875 12.2845 39.9748 12.3294C39.9436 12.4399 39.8949 12.5741 39.8346 12.7175C39.8168 12.7597 39.7989 12.8007 39.7813 12.8398C38.5103 13.7113 35.9788 14.9393 33.7095 15.4811C30.9875 16.131 27.6413 16.5217 24 16.5217C20.3587 16.5217 17.0125 16.131 14.2905 15.4811C12.0012 14.9346 9.44505 13.6897 8.18538 12.8168C8.17384 12.7925 8.16216 12.767 8.15052 12.7408C8.09919 12.6249 8.05721 12.5114 8.02977 12.411C8.00356 12.3152 8.00039 12.2667 8.00004 12.2612C8.00004 12.261 8 12.2607 8.00004 12.2612C8.00004 12.2359 8.0104 11.9233 8.68485 11.3686C9.34546 10.8254 10.4222 10.2469 11.9291 9.72276C14.9242 8.68098 19.1919 8 24 8C28.8081 8 33.0758 8.68098 36.0709 9.72276C37.5778 10.2469 38.6545 10.8254 39.3151 11.3686C39.9006 11.8501 39.9857 12.1489 39.998 12.236ZM4.95178 15.2312L21.4543 41.6973C22.6288 43.5809 25.3712 43.5809 26.5457 41.6973L43.0534 15.223C43.0709 15.1948 43.0878 15.1662 43.104 15.1371L41.3563 14.1648C43.104 15.1371 43.1038 15.1374 43.104 15.1371L43.1051 15.135L43.1065 15.1325L43.1101 15.1261L43.1199 15.1082C43.1276 15.094 43.1377 15.0754 43.1497 15.0527C43.1738 15.0075 43.2062 14.9455 43.244 14.8701C43.319 14.7208 43.4196 14.511 43.5217 14.2683C43.6901 13.8679 44 13.0689 44 12.2609C44 10.5573 43.003 9.22254 41.8558 8.2791C40.6947 7.32427 39.1354 6.55361 37.385 5.94477C33.8654 4.72057 29.133 4 24 4C18.867 4 14.1346 4.72057 10.615 5.94478C8.86463 6.55361 7.30529 7.32428 6.14419 8.27911C4.99695 9.22255 3.99999 10.5573 3.99999 12.2609C3.99999 13.1275 4.29264 13.9078 4.49321 14.3607C4.60375 14.6102 4.71348 14.8196 4.79687 14.9689C4.83898 15.0444 4.87547 15.1065 4.9035 15.1529C4.91754 15.1762 4.92954 15.1957 4.93916 15.2111L4.94662 15.223L4.95178 15.2312ZM35.9868 18.996L24 38.22L12.0131 18.996C12.4661 19.1391 12.9179 19.2658 13.3617 19.3718C16.4281 20.1039 20.0901 20.5217 24 20.5217C27.9099 20.5217 31.5719 20.1039 34.6383 19.3718C35.082 19.2658 35.5339 19.1391 35.9868 18.996Z" fill="currentColor" fill-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white font-display">COOL INCENSE</span>
+            </div>
+            <nav class="hidden md:flex items-center gap-10">
+                <div class="relative nav-item">
+                    <a class="text-sm font-medium text-slate-400 hover:text-white transition-colors scroll-link" href="#home">Home</a>
+                    <div class="nav-indicator"></div>
+                </div>
+                <div class="relative nav-item">
+                    <a class="text-sm font-medium text-slate-400 hover:text-white transition-colors scroll-link" href="#products">Products</a>
+                    <div class="nav-indicator"></div>
+                </div>
+                <div class="relative nav-item">
+                    <a class="text-sm font-medium text-slate-400 hover:text-white transition-colors scroll-link" href="#about">About</a>
+                    <div class="nav-indicator"></div>
+                </div>
+                <div class="relative nav-item">
+                    <a class="text-sm font-medium text-slate-400 hover:text-white transition-colors scroll-link" href="#contact">Contact</a>
+                    <div class="nav-indicator"></div>
+                </div>
+                <button class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg text-sm font-bold tracking-wide transition-all">
+                    Pre-order Now
+                </button>
+            </nav>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-20">
+        <!-- Home Section -->
+        <section id="home" class="relative h-[85vh] @container">
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDuLWVzukPxdmPCaXDFk-9QA_EEf8kZqKAk9g0CaK48IqZrjxIq_7roEi1uOc9PizTOUN3loHS92SO1bgSRlD0iYBlJVHeow79JfXuJL4N-x0m-y12nSf7nOJmLzfMgJ5y2QGh9EpmmRXJgp_20N96w3SpDZBfAUYAi_540MugjNzJrFkjdYxKlKBdAzFjZIGFVLsG4L3J2asmLpbVCQOXZ_SuKv6iqWSAyFWGKVgOxY7RfjFy5tYAhtb_ifkns8S62ojo0KS9MmBY');">
+                <div class="absolute inset-0 bg-background-dark/40 misty-overlay"></div>
+            </div>
+            <div class="relative h-full flex items-center justify-center px-6">
+                <div class="max-w-[960px] text-center flex flex-col items-center gap-8">
+                    <span class="inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary text-xs font-bold tracking-widest uppercase border border-primary/30">
+                        First Batch Pre-order Open
+                    </span>
+                    <div class="flex flex-col gap-4">
+                        <h1 class="text-white text-5xl md:text-7xl font-black leading-tight tracking-[-0.033em] font-display">
+                            Win ทุกลมหายใจ<br/><span class="text-primary italic">ด้วย Cool Incense</span>
+                        </h1>
+                        <p class="text-slate-200 text-lg md:text-xl font-normal leading-relaxed max-w-[700px] mx-auto">
+                            The world's first heat-free cool incense burner. Engineered for the minimalist home, crafted for the senses.
+                        </p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="flex min-w-[200px] cursor-pointer items-center justify-center rounded-lg h-14 px-8 bg-primary text-white text-base font-bold transition-transform hover:scale-105">
+                            Pre-order Now
+                        </button>
+                        <button class="flex min-w-[200px] cursor-pointer items-center justify-center rounded-lg h-14 px-8 border border-white/20 bg-white/5 text-white text-base font-bold hover:bg-white/10 transition-colors">
+                            Watch Trailer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Philosophy Section -->
+        <section id="about" class="py-24 px-6 lg:px-40 bg-background-dark">
+            <div class="max-w-[1200px] mx-auto">
+                <div class="flex flex-col gap-16">
+                    <div class="flex flex-col gap-4 max-w-[720px]">
+                        <h2 class="text-primary font-bold tracking-widest text-sm uppercase font-display">The Philosophy</h2>
+                        <h3 class="text-white text-4xl md:text-5xl font-black leading-tight tracking-tight">Redefining the Ritual</h3>
+                        <p class="text-slate-400 text-lg leading-relaxed">
+                            Traditional incense relies on combustion, introducing pollutants into your space. Our cold-vapor technology ensures 100% purity and unmatched safety.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="flex flex-col gap-6 rounded-xl border border-white/10 bg-white/5 p-8 hover:border-primary/50 transition-colors">
+                            <div class="bg-primary/20 size-12 rounded-lg flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-3xl">thermostat</span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <h4 class="text-white text-xl font-bold font-display">Zero Heat</h4>
+                                <p class="text-slate-400 text-base leading-relaxed">Advanced sonic nebulization technology keeps the device cool to the touch at all times.</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-6 rounded-xl border border-white/10 bg-white/5 p-8 hover:border-primary/50 transition-colors">
+                            <div class="bg-primary/20 size-12 rounded-lg flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-3xl">air</span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <h4 class="text-white text-xl font-bold font-display">Pure Fragrance</h4>
+                                <p class="text-slate-400 text-base leading-relaxed">No burning means no smoke. Experience the raw, unadulterated scent profile as intended by perfumers.</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-6 rounded-xl border border-white/10 bg-white/5 p-8 hover:border-primary/50 transition-colors">
+                            <div class="bg-primary/20 size-12 rounded-lg flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-3xl">architecture</span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <h4 class="text-white text-xl font-bold font-display">Sculptural Design</h4>
+                                <p class="text-slate-400 text-base leading-relaxed">A seamless aluminum monolith designed to complement minimalist architectural spaces.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Details Section -->
+        <section id="products" class="py-24 px-6 lg:px-40 bg-background-light dark:bg-[#0a1016]">
+            <div class="max-w-[1200px] mx-auto">
+                <div class="flex flex-wrap gap-12">
+                    <div class="lg:w-1/2">
+                        <div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded-xl overflow-hidden group relative">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent pointer-events-none"></div>
+                            <div class="w-full h-full bg-center bg-no-repeat bg-cover transition-transform duration-700 hover:scale-105" data-alt="Main product shot of premium incense burner on stone surface" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCr2DqCsMY0AGP-OMWJ2-9A_aMykL6dB4fGqpEr988N9bPIxYVrKrI4rJexCfuho7z1uDm6j189NzyudnNFJph_c87XI8nKyvPQAK9LRmemIhR3PWF0gXCI1hpr-nHxZMlyUhTaZYvVWwb7-IP_QQoisVyOdNpJAK5A-_uHy1QHVPWnuByE4JuhgB5Onkr88zrN2qk2XpUe-YM4AsoDI0cJ3RDaa27KkwBQCn8pQOZRqzDAXqP3-VnsdH6Xigx6_isW_yIbM9KznU0")'></div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4 mt-4">
+                            <div class="aspect-square bg-center bg-no-repeat bg-cover rounded-lg ring-2 ring-primary cursor-pointer" data-alt="Close up of incense stick smoke" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAbA2f_TXZjN1JLN_gA95ABfueP2jODjpgxMSKZpKmKx8ckPaNgvyOXrQ1A5i3pDCVzdjYX27UWD1fgRcjWFtDAybokk2kFLbXSeCDM1oJzDFu0gRPEUbKv0-VCz8UC1w3PLUuH5u6jUDZiFSiFAC0dU_nYUzdoGpmdpkSh5fLJKEOupZLvoZV6Ie3o0hB2aklk9W7NfBBPNBSfpmVJ7l9BixYnPp06X7MXFKRqVAL4xWhqVjaierYFmB1aFtkCNTJlkHcpsYGa-RY")'></div>
+                            <div class="aspect-square bg-center bg-no-repeat bg-cover rounded-lg opacity-60 hover:opacity-100 transition-opacity cursor-pointer border border-white/10" data-alt="Detail of the sleek black ceramic burner base" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCibDQo1CGEp3AYrNOf9l1WrhnkC1UFKOHemQWnu04Q-jGn0Br4BpjvQ9QHV4JDVB7cEUbPXdbkT9AmAJ5YxbhVKVpbg_A1TtTT33w5dkb8oUaJRIo03CYAO9q_Xe6rSI6OPzrbH5yzXISePJvNeZvbxDCyWcoTj1F-8o_iZHsdOCzkdg7mq75lnWDNyNA9cgzGJMdTKn4QM9ynYnoPrq0PWq6Js5ybHwEthtPEGDshKB2INhzoA-ldhJ0tKUuqJV3q71h28zVuV-w")'></div>
+                            <div class="aspect-square bg-center bg-no-repeat bg-cover rounded-lg opacity-60 hover:opacity-100 transition-opacity cursor-pointer border border-white/10" data-alt="Incense burner in a modern living room setting" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAu0Vd1utnaIy4YNwrUX5VpzniDu5ibZJF2w7i7wEp5h-kcBl2OluvpO6-Ue0h5iT5fVJe89H0LHn1g2R7d7cmwNOmHEsuuQmzgUoe9bUqptOIStYkU4vzF6nxzMms1HpCnAeAJStye--yo8JhvHMr0KGQWcc54JTI_KEwH42I6-cgFURMDR-bA0SEpdpV4zvp491PNUkFLizyykW38lleMKuMasiVUJ6H0YdBzO6IgysK8qRo7XVN8NDBB71CR_CAk3hS2326EkZ0")'></div>
+                            <div class="aspect-square bg-center bg-no-repeat bg-cover rounded-lg opacity-60 hover:opacity-100 transition-opacity cursor-pointer border border-white/10" data-alt="Packaging design for cool incense" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJVecGQ2onO_ENYsyAlI4O5g9zAfd_v4PbSC1iGZXMv3DrYXLdMsHntQ-0gq3bC6cUExRTWW9lf4f7S1c5bkumfaYppOw67BT1h-qAXPCphag2u5LkTzmEQTZBquK3i63imjeaO9VuBw7UPlqzytE9dGcRNMgnspzhaiQsey15kpHgFyaEF1uYz-2byKQU2-HEtU-RfqpFSgG2ZUlnl2uIoG2E2zysCS9zyWp5n-lpctSSW1yxLBerQIiMfnaziMjFy9TvohX76No")'></div>
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2 flex flex-col">
+                        <p class="text-primary text-xs font-bold tracking-widest uppercase mb-2">Limited Pre-order Edition</p>
+                        <h1 class="text-slate-900 dark:text-white text-4xl lg:text-5xl font-bold leading-tight mb-4">Original Cool Incense</h1>
+                        <div class="flex items-baseline gap-4 mb-8">
+                            <span class="text-3xl font-bold text-slate-900 dark:text-white">$89.00</span>
+                            <span class="text-lg text-slate-400 line-through">$120.00</span>
+                            <span class="px-2 py-1 bg-primary/20 text-primary text-xs font-bold rounded">25% OFF PRE-ORDER</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                            <div class="p-4 rounded-xl border border-slate-200 dark:border-white/10 bg-white/5">
+                                <span class="material-symbols-outlined text-primary mb-2">shield_moon</span>
+                                <h4 class="text-sm font-bold text-slate-900 dark:text-white">Safety First</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Non-toxic, auto-extinguish</p>
+                            </div>
+                            <div class="p-4 rounded-xl border border-slate-200 dark:border-white/10 bg-white/5">
+                                <span class="material-symbols-outlined text-primary mb-2">timer</span>
+                                <h4 class="text-sm font-bold text-slate-900 dark:text-white">Long Lasting</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">45 min burn per stick</p>
+                            </div>
+                            <div class="p-4 rounded-xl border border-slate-200 dark:border-white/10 bg-white/5">
+                                <span class="material-symbols-outlined text-primary mb-2">architecture</span>
+                                <h4 class="text-sm font-bold text-slate-900 dark:text-white">Sleek Design</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Minimalist aesthetic</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4 mb-10">
+                            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Elevate your sensory environment with the Original Cool Incense system. Designed for the contemporary home, our proprietary scent profiles are crafted in Kyoto and paired with a precision-engineered ceramic burner.
+                            </p>
+                            <ul class="space-y-2">
+                                <li class="flex items-center gap-2 text-sm">
+                                    <span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+                                    Ships worldwide in December 2024
+                                </li>
+                                <li class="flex items-center gap-2 text-sm">
+                                    <span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+                                    Includes 40 premium incense sticks
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-auto space-y-4">
+                            <button class="w-full py-5 bg-primary text-white text-lg font-bold rounded-xl shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all">
+                                Pre-order Now
+                            </button>
+                            <p class="text-center text-xs text-slate-500">Secure checkout. No charge until shipping starts.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-24 border-t border-slate-200 dark:border-white/10 pt-16">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                            <div>
+                                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-primary">settings_input_component</span>
+                                    Specifications
+                                </h3>
+                                <dl class="space-y-4">
+                                    <div class="flex justify-between border-b border-slate-200 dark:border-white/5 pb-2">
+                                        <dt class="text-slate-500">Burner Material</dt>
+                                        <dd class="font-medium">Matte-Finished Ceramic</dd>
+                                    </div>
+                                    <div class="flex justify-between border-b border-slate-200 dark:border-white/5 pb-2">
+                                        <dt class="text-slate-500">Stick Core</dt>
+                                        <dd class="font-medium">Natural Bamboo</dd>
+                                    </div>
+                                    <div class="flex justify-between border-b border-slate-200 dark:border-white/5 pb-2">
+                                        <dt class="text-slate-500">Scent Origin</dt>
+                                        <dd class="font-medium">Kyoto, Japan</dd>
+                                    </div>
+                                    <div class="flex justify-between border-b border-slate-200 dark:border-white/5 pb-2">
+                                        <dt class="text-slate-500">Dimensions</dt>
+                                        <dd class="font-medium">120mm x 40mm x 40mm</dd>
+                                    </div>
+                                    <div class="flex justify-between border-b border-slate-200 dark:border-white/5 pb-2">
+                                        <dt class="text-slate-500">Weight</dt>
+                                        <dd class="font-medium">340g (Burner only)</dd>
+                                    </div>
+                                </dl>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-primary">menu_book</span>
+                                    Usage Instructions
+                                </h3>
+                                <div class="space-y-6">
+                                    <div class="flex gap-4">
+                                        <div class="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold flex-shrink-0">1</div>
+                                        <p class="text-slate-600 dark:text-slate-400 text-sm">Place the ceramic burner on a flat, heat-resistant surface away from flammable objects.</p>
+                                    </div>
+                                    <div class="flex gap-4">
+                                        <div class="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold flex-shrink-0">2</div>
+                                        <p class="text-slate-600 dark:text-slate-400 text-sm">Light the tip of the incense stick until it glows, then gently blow out the flame.</p>
+                                    </div>
+                                    <div class="flex gap-4">
+                                        <div class="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold flex-shrink-0">3</div>
+                                        <p class="text-slate-600 dark:text-slate-400 text-sm">Insert the bamboo end into the designated slot in the ceramic holder.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Experience Section -->
+        <section class="py-24 px-6 lg:px-40 bg-background-light dark:bg-[#0a1016]">
+            <div class="max-w-[1200px] mx-auto text-center mb-12">
+                <h2 class="text-slate-900 dark:text-white text-3xl md:text-4xl font-bold font-display mb-4">Experience the Motion</h2>
+                <p class="text-slate-500 dark:text-slate-400 max-w-[600px] mx-auto">Watch how Cool Incense integrates seamlessly into your daily routine and transforms your environment.</p>
+            </div>
+            <div class="max-w-[1000px] mx-auto">
+                <div class="relative group cursor-pointer aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/5">
+                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC7T7wfFiZoBZoBBeXCRwIbZZT7tng-kLtLjcVjWneYYfcKq9KM8dxi-gqpmUHxCzm30dKEYfETGOo1aKjbD3l7Uuzm9npcPeuT2MmsAiZvbLQmFXyT6_tq3o6zvnpfkVrr11QeKHlaFEjyg0_aoCvgJ9w1fBfzzWJOkUMkWM1sthbo3GlRx7-0KO5RqT3aka7A1B5xtHDHJdaAwJhvpGehBPkKw0PP6jDIcvNg040gUTZZCr3ZJfPki8y3SxB0dAroEfjw5fLex-Y');">
+                    </div>
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <button class="size-24 rounded-full bg-primary/90 text-white flex items-center justify-center transition-transform group-hover:scale-110 shadow-lg backdrop-blur-sm">
+                            <span class="material-symbols-outlined text-5xl fill-current">play_arrow</span>
+                        </button>
+                    </div>
+                    <div class="absolute inset-x-0 bottom-0 px-8 py-6 bg-gradient-to-t from-black/80 to-transparent">
+                        <div class="flex h-1.5 w-full items-center rounded-full bg-white/20 mb-4 overflow-hidden">
+                            <div class="h-full w-1/3 bg-primary rounded-full"></div>
+                            <div class="size-3 bg-white rounded-full shadow-md -ml-1"></div>
+                        </div>
+                        <div class="flex items-center justify-between text-white/80 text-xs font-medium tracking-widest">
+                            <span>02:44</span>
+                            <span class="material-symbols-outlined text-sm">volume_up</span>
+                            <span>08:12</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Waitlist Section -->
+        <section class="py-24 px-6 lg:px-40">
+            <div class="max-w-[1200px] mx-auto rounded-3xl bg-primary p-12 md:p-20 text-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full -ml-32 -mb-32 blur-3xl"></div>
+                <div class="relative z-10 flex flex-col items-center gap-8">
+                    <h2 class="text-white text-4xl md:text-5xl font-black font-display tracking-tight">Don't miss the first drop.</h2>
+                    <p class="text-white/80 text-lg max-w-[500px]">Join 5,000+ modernists on our waitlist. We ship the first 1,000 units this winter.</p>
+                    <form class="w-full max-w-md flex flex-col sm:flex-row gap-3">
+                        <input class="flex-grow rounded-lg border-none bg-white/10 px-6 py-4 text-white placeholder:text-white/60 focus:ring-2 focus:ring-white" placeholder="Enter your email" type="email"/>
+                        <button class="bg-white text-primary font-bold px-8 py-4 rounded-lg hover:bg-slate-100 transition-colors whitespace-nowrap" type="submit">
+                            Join Waitlist
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact/Information Form Section -->
+        <section id="contact" class="py-24 px-6 lg:px-40 bg-background-light dark:bg-background-dark">
+            <div class="max-w-[1200px] mx-auto">
+                <div class="mb-12">
+                    <h2 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] mb-3">Secure Your Scent</h2>
+                    <p class="text-slate-600 dark:text-[#9dabb9] text-lg font-normal">Complete the details below to reserve your limited edition kit.</p>
+                </div>
+                <form class="space-y-10">
+                    <section>
+                        <h3 class="text-slate-900 dark:text-white text-xl font-bold border-b border-slate-200 dark:border-slate-800 pb-3 mb-6">Contact Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <label class="flex flex-col gap-2">
+                                <span class="text-slate-700 dark:text-white text-sm font-medium">Full Name</span>
+                                <input class="form-input w-full rounded-lg text-slate-900 dark:text-white border border-slate-300 dark:border-[#3b4754] bg-white dark:bg-[#1c2127] h-14 placeholder:text-slate-400 dark:placeholder:text-[#9dabb9] px-4 text-base" placeholder="e.g. Alex Rivera" type="text"/>
+                            </label>
+                            <label class="flex flex-col gap-2">
+                                <span class="text-slate-700 dark:text-white text-sm font-medium">Email Address</span>
+                                <input class="form-input w-full rounded-lg text-slate-900 dark:text-white border border-slate-300 dark:border-[#3b4754] bg-white dark:bg-[#1c2127] h-14 placeholder:text-slate-400 dark:placeholder:text-[#9dabb9] px-4 text-base" placeholder="alex@example.com" type="email"/>
+                            </label>
+                            <label class="flex flex-col gap-2 md:col-span-2">
+                                <span class="text-slate-700 dark:text-white text-sm font-medium">Phone Number</span>
+                                <input class="form-input w-full rounded-lg text-slate-900 dark:text-white border border-slate-300 dark:border-[#3b4754] bg-white dark:bg-[#1c2127] h-14 placeholder:text-slate-400 dark:placeholder:text-[#9dabb9] px-4 text-base" placeholder="+1 (555) 000-0000" type="tel"/>
+                            </label>
+                        </div>
+                    </section>
+                    <section>
+                        <h3 class="text-slate-900 dark:text-white text-xl font-bold border-b border-slate-200 dark:border-slate-800 pb-3 mb-6">Shipping Address</h3>
+                        <div class="grid grid-cols-1 gap-6">
+                            <label class="flex flex-col gap-2">
+                                <span class="text-slate-700 dark:text-white text-sm font-medium">Street Address</span>
+                                <textarea class="form-input w-full rounded-lg text-slate-900 dark:text-white border border-slate-300 dark:border-[#3b4754] bg-white dark:bg-[#1c2127] h-24 placeholder:text-slate-400 dark:placeholder:text-[#9dabb9] p-4 text-base resize-none" placeholder="Enter your full delivery address"></textarea>
+                            </label>
+                            <div class="grid grid-cols-2 gap-6">
+                                <label class="flex flex-col gap-2">
+                                    <span class="text-slate-700 dark:text-white text-sm font-medium">City</span>
+                                    <input class="form-input w-full rounded-lg text-slate-900 dark:text-white border border-slate-300 dark:border-[#3b4754] bg-white dark:bg-[#1c2127] h-14 px-4 text-base" placeholder="City" type="text"/>
+                                </label>
+                                <label class="flex flex-col gap-2">
+                                    <span class="text-slate-700 dark:text-white text-sm font-medium">Postal Code</span>
+                                    <input class="form-input w-full rounded-lg text-slate-900 dark:text-white border border-slate-300 dark:border-[#3b4754] bg-white dark:bg-[#1c2127] h-14 px-4 text-base" placeholder="Code" type="text"/>
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="flex flex-col gap-4 pt-4">
+                        <button class="w-full lg:w-max min-w-[280px] flex items-center justify-center rounded-xl h-14 px-8 bg-primary text-white text-lg font-bold hover:bg-blue-600 transition-all shadow-lg shadow-primary/20" type="button">
+                            Continue to Shipping
+                        </button>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">lock</span>
+                            Your data is encrypted and secure.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Payment Section -->
+        <section class="py-24 px-6 lg:px-40 bg-background-light dark:bg-background-dark">
+            <div class="max-w-[1200px] mx-auto">
+                <div class="space-y-10">
+                    <div>
+                        <h2 class="text-4xl font-black leading-tight tracking-tight mb-3">Payment Selection</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-lg">Secure your pre-order for the limited edition collection from Cool Incense.</p>
+                    </div>
+                    <div class="space-y-4">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Choose Payment Method</h3>
+                        <div class="space-y-4">
+                            <label class="relative block cursor-pointer group">
+                                <input checked="" class="sr-only payment-radio" name="payment_method" type="radio"/>
+                                <div class="p-5 rounded-xl border-2 border-slate-200 dark:border-slate-800 transition-all hover:border-primary/50">
+                                    <div class="flex items-center gap-4 mb-6">
+                                        <div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+                                            <span class="material-symbols-outlined">credit_card</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-bold text-lg">Credit / Debit Card</p>
+                                            <p class="text-sm text-slate-500 dark:text-slate-400">Securely pay with Visa, Mastercard, or Amex</p>
+                                        </div>
+                                        <div class="flex gap-1">
+                                            <div class="w-8 h-5 bg-slate-100 dark:bg-slate-700 rounded border border-slate-200 dark:border-slate-600 flex items-center justify-center">
+                                                <span class="text-[8px] font-bold">VISA</span>
+                                            </div>
+                                            <div class="w-8 h-5 bg-slate-100 dark:bg-slate-700 rounded border border-slate-200 dark:border-slate-600 flex items-center justify-center">
+                                                <span class="text-[8px] font-bold">MC</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="col-span-2">
+                                            <label class="block text-sm font-semibold text-slate-400 mb-1.5">Card Number</label>
+                                            <div class="relative">
+                                                <input class="w-full bg-slate-100 dark:bg-[#1c2127] border border-slate-200 dark:border-slate-800 rounded-lg h-12 px-4 text-base focus:ring-primary focus:border-primary transition-all" placeholder="0000 0000 0000 0000" type="text"/>
+                                                <div class="absolute right-4 top-3 text-slate-400">
+                                                    <span class="material-symbols-outlined">lock</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-semibold text-slate-400 mb-1.5">Expiry Date</label>
+                                            <input class="w-full bg-slate-100 dark:bg-[#1c2127] border border-slate-200 dark:border-slate-800 rounded-lg h-12 px-4 text-base focus:ring-primary focus:border-primary transition-all" placeholder="MM/YY" type="text"/>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-semibold text-slate-400 mb-1.5">CVV</label>
+                                            <input class="w-full bg-slate-100 dark:bg-[#1c2127] border border-slate-200 dark:border-slate-800 rounded-lg h-12 px-4 text-base focus:ring-primary focus:border-primary transition-all" placeholder="***" type="password"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="relative block cursor-pointer group">
+                                <input class="sr-only payment-radio" name="payment_method" type="radio"/>
+                                <div class="p-5 rounded-xl border-2 border-slate-200 dark:border-slate-800 transition-all hover:border-primary/50">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+                                            <span class="material-symbols-outlined">qr_code_2</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-bold text-lg">Mobile Banking (QR Code)</p>
+                                            <p class="text-sm text-slate-500 dark:text-slate-400">Scan the dynamic QR code using your banking app</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="relative block cursor-pointer group">
+                                <input class="sr-only payment-radio" name="payment_method" type="radio"/>
+                                <div class="p-5 rounded-xl border-2 border-slate-200 dark:border-slate-800 transition-all hover:border-primary/50">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center">
+                                            <span class="material-symbols-outlined">account_balance_wallet</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-bold text-lg">E-wallets</p>
+                                            <p class="text-sm text-slate-500 dark:text-slate-400">Fast checkout with Apple Pay or Google Pay</p>
+                                        </div>
+                                        <div class="flex gap-2 opacity-60">
+                                            <span class="material-symbols-outlined">contactless</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-500 text-xs">
+                        <span class="material-symbols-outlined text-sm">verified_user</span>
+                        <span>Your transaction is encrypted with 256-bit SSL security</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Thank You Section -->
+        <section class="py-24 px-6 lg:px-40 bg-background-light dark:bg-background-dark">
+            <div class="max-w-[1200px] mx-auto">
+                <div class="flex min-h-[520px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-xl items-center justify-center p-8 text-center shadow-2xl overflow-hidden relative" data-alt="Premium incense sticks burning with artistic smoke trails in a dark setting" style='background-image: linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuA_laKgylRX25Th3DS6SMIKQ5Dnfp24-hnrbTQX-MEj6Z1IAzSMqfOq3Dz14b5IbricKynQu4NiJGHEfFj799dLxfzwtceqmBfDIyxawK4DTj1ofz7uox3KKcGN4b0a4b3IiS3PmpJYfY79K330LN5UJfaa_eI8cJAn_L-z7g743jQ8pyqsfN8MDnoAV_9adFTd9VSKqLrK_vGL-s5Vp2OHduqDuQXPZtMZMRjWg89H5oyatIugJFhdfNPmHMAaOUAmBtGsPp7X2Bk");'>
+                    <div class="bg-primary/20 backdrop-blur-md rounded-full p-4 mb-2 animate-pulse border border-primary/50">
+                        <span class="material-symbols-outlined text-primary text-5xl">check_circle</span>
+                    </div>
+                    <div class="flex flex-col gap-4 max-w-[700px]">
+                        <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-6xl">
+                            Thank you for being part of the cool revolution
+                        </h1>
+                        <h2 class="text-slate-200 text-base font-normal leading-relaxed @[480px]:text-xl">
+                            Your pre-order for Cool Incense is confirmed. We've sent a detailed receipt to your email. We'll notify you as soon as your batch is ready for shipment.
+                        </h2>
+                    </div>
+                    <div class="flex gap-4 mt-4">
+                        <button class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:scale-105 transition-transform">
+                            <span class="truncate">View Order</span>
+                        </button>
+                        <button class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-white/20 transition-all">
+                            <span class="truncate">Track Package</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-background-dark border-t border-white/5 py-16 px-6 lg:px-40">
+        <div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-2 flex flex-col gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="text-primary">
+                        <svg class="size-6" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.8261 17.4264C16.7203 18.1174 20.2244 18.5217 24 18.5217C27.7756 18.5217 31.2797 18.1174 34.1739 17.4264C36.9144 16.7722 39.9967 15.2331 41.3563 14.1648L24.8486 40.6391C24.4571 41.267 23.5429 41.267 23.1514 40.6391L6.64374 14.1648C8.00331 15.2331 11.0856 16.7722 13.8261 17.4264Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                    <span class="text-lg font-bold tracking-tight text-white font-display uppercase">Cool Incense</span>
+                </div>
+                <p class="text-slate-500 text-sm leading-relaxed max-w-xs">
+                    Designing the future of home fragrance. Safe for pets, humans, and modern electronics.
+                </p>
+                <div class="flex gap-4">
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">camera_alt</span></a>
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">chat</span></a>
+                </div>
+            </div>
+            <div class="flex flex-col gap-4">
+                <h5 class="text-white font-bold text-sm tracking-widest uppercase mb-2">Shop</h5>
+                <a class="text-slate-500 hover:text-white transition-colors text-sm" href="#">Devices</a>
+                <a class="text-slate-500 hover:text-white transition-colors text-sm" href="#">Scent Packs</a>
+                <a class="text-slate-500 hover:text-white transition-colors text-sm" href="#">Subscriptions</a>
+            </div>
+            <div class="flex flex-col gap-4">
+                <h5 class="text-white font-bold text-sm tracking-widest uppercase mb-2">Support</h5>
+                <a class="text-slate-500 hover:text-white transition-colors text-sm" href="#">FAQ</a>
+                <a class="text-slate-500 hover:text-white transition-colors text-sm" href="#">Shipping</a>
+                <a class="text-slate-500 hover:text-white transition-colors text-sm" href="#">Contact Us</a>
+            </div>
+        </div>
+        <div class="max-w-[1200px] mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-slate-600 text-xs">© 2024 Original Cool Incense. All rights reserved.</p>
+            <div class="flex gap-8">
+                <a class="text-slate-600 hover:text-white transition-colors text-xs" href="#">Privacy Policy</a>
+                <a class="text-slate-600 hover:text-white transition-colors text-xs" href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
