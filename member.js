@@ -116,11 +116,15 @@ function setUser(user) {
 function setActive(section) {
   state.active = section;
   render();
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function shell(content) {
+  const activeItem = menu.find(item => item[0] === state.active) || menu[0];
+  const mobilePrimary = menu.slice(0, 5);
+
   return `
-    <div class="min-h-screen bg-stone-50">
+    <div class="min-h-screen bg-stone-50 pb-24 lg:pb-0">
       <header class="sticky top-0 z-30 border-b border-stone-200 bg-white/90 backdrop-blur">
         <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
           <a href="index.html" class="flex items-center gap-3">
@@ -133,8 +137,24 @@ function shell(content) {
           <button onclick="logout()" class="rounded-lg border border-stone-300 px-3 py-2 text-sm hover:bg-stone-100">ออกจากระบบ</button>
         </div>
       </header>
+
+      <div class="mx-auto max-w-7xl px-4 pt-4 lg:hidden">
+        <div class="flex items-center justify-between rounded-xl border border-stone-200 bg-white p-3">
+          <div>
+            <div class="text-xs text-stone-500">กำลังดู</div>
+            <div class="flex items-center gap-2 font-semibold">
+              <span class="material-symbols-outlined text-base">${activeItem[1]}</span>
+              <span>${activeItem[2]}</span>
+            </div>
+          </div>
+          <select onchange="setActive(this.value)" class="rounded-lg border-stone-300 text-sm">
+            ${menu.map(item => `<option value="${item[0]}" ${state.active === item[0] ? "selected" : ""}>${item[2]}</option>`).join("")}
+          </select>
+        </div>
+      </div>
+
       <div class="mx-auto grid max-w-7xl gap-4 px-4 py-4 lg:grid-cols-[260px_1fr]">
-        <aside class="rounded-xl border border-stone-200 bg-white p-3 lg:sticky lg:top-20 lg:h-[calc(100vh-6rem)]">
+        <aside class="hidden rounded-xl border border-stone-200 bg-white p-3 lg:sticky lg:top-20 lg:block lg:h-[calc(100vh-6rem)]">
           <div class="mb-3 rounded-lg bg-stone-100 p-4">
             <div class="font-semibold">${state.user.name}</div>
             <div class="text-sm text-stone-500">${state.user.email}</div>
@@ -150,6 +170,17 @@ function shell(content) {
         </aside>
         <main class="min-w-0">${content}</main>
       </div>
+
+      <nav class="fixed inset-x-0 bottom-0 z-40 border-t border-stone-200 bg-white/95 px-2 py-2 shadow-2xl backdrop-blur lg:hidden">
+        <div class="mx-auto grid max-w-md grid-cols-5 gap-1">
+          ${mobilePrimary.map(item => `
+            <button onclick="setActive('${item[0]}')" class="flex flex-col items-center gap-1 rounded-xl px-1 py-2 text-[11px] ${state.active === item[0] ? "bg-stone-900 text-white" : "text-stone-600"}">
+              <span class="material-symbols-outlined text-[22px]">${item[1]}</span>
+              <span class="max-w-full truncate">${item[2]}</span>
+            </button>
+          `).join("")}
+        </div>
+      </nav>
     </div>
   `;
 }
