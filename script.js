@@ -107,15 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Handle pre-order buttons
-    const preorderButtons = document.querySelectorAll('button');
-    preorderButtons.forEach(button => {
-        if (button.textContent.includes('Pre-order Now')) {
-            button.addEventListener('click', function() {
-                alert('Pre-order process would start here in a real implementation.');
-            });
-        }
-    });
+    // Pre-order links now open the member ordering prototype.
 
     // Newsletter subscription form
     const newsletterForm = document.querySelector('.max-w-2xl.mx-auto form');
