@@ -1,6 +1,7 @@
 const state = {
   isAuthed: localStorage.getItem("tiyAuthed") === "1",
-  active: "dashboard",
+  active: localStorage.getItem("tiyAuthed") === "1" ? "dashboard" : "quick",
+  lastOrder: JSON.parse(localStorage.getItem("tiyLastOrder") || "null"),
   user: JSON.parse(localStorage.getItem("tiyUser") || "null") || {
     name: "คุณรูบ",
     email: "member@tubeiyen.com",
@@ -86,7 +87,10 @@ const state = {
   ]
 };
 
+const GOOGLE_SCRIPT_URL = "";
+
 const menu = [
+  ["quick", "bolt", "สั่งด่วน"],
   ["dashboard", "dashboard", "Dashboard"],
   ["create", "add_shopping_cart", "สร้างออเดอร์"],
   ["orders", "inventory_2", "คำสั่งซื้อ"],
@@ -117,6 +121,38 @@ function setActive(section) {
   state.active = section;
   render();
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function saveOrder(order) {
+  state.orders.unshift(order);
+  state.lastOrder = order;
+  localStorage.setItem("tiyLastOrder", JSON.stringify(order));
+  localStorage.setItem("tiyOrders", JSON.stringify(state.orders));
+}
+
+async function submitToBackOffice(type, payload) {
+  const record = {
+    type,
+    createdAt: new Date().toISOString(),
+    payload
+  };
+
+  const queued = JSON.parse(localStorage.getItem("tiyPendingBackOffice") || "[]");
+  queued.push(record);
+  localStorage.setItem("tiyPendingBackOffice", JSON.stringify(queued));
+
+  if (!GOOGLE_SCRIPT_URL) {
+    return { ok: true, mode: "local-demo" };
+  }
+
+  await fetch(GOOGLE_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(record)
+  });
+
+  return { ok: true, mode: "google-sheet" };
 }
 
 function shell(content) {
@@ -197,12 +233,102 @@ function page(title, subtitle, body) {
   `;
 }
 
+function quickOrder() {
+  return page("สั่ง Tube i Yen แบบด่วน", "กรอกน้อย จบไว ทีมงานติดต่อยืนยันก่อนจัดส่ง", `
+    <div class="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+      ${card(`
+        <div class="mb-5 rounded-xl bg-stone-900 p-5 text-white">
+          <div class="text-sm text-stone-300">ชุดแนะนำ</div>
+          <div class="mt-1 text-2xl font-bold">Tube i Yen Starter Set</div>
+          <p class="mt-2 text-sm text-stone-300">เหมาะสำหรับเริ่มใช้ในบ้าน ร้านค้า หรือห้องพระ มาพร้อมกลิ่นเริ่มต้นและคู่มือใช้งาน</p>
+          <div class="mt-4 text-3xl font-bold">1,880 บาท</div>
+        </div>
+        <form id="quickOrderForm" class="space-y-4">
+          <div class="grid gap-3 sm:grid-cols-2">
+            <label class="block">
+              <span class="mb-1 block text-sm font-medium">ชื่อผู้รับ</span>
+              <input name="name" class="w-full rounded-lg border-stone-300" placeholder="เช่น คุณมงคล">
+            </label>
+            <label class="block">
+              <span class="mb-1 block text-sm font-medium">เบอร์โทร / Line</span>
+              <input name="phone" class="w-full rounded-lg border-stone-300" placeholder="เบอร์ที่ติดต่อได้">
+            </label>
+          </div>
+          <label class="block">
+            <span class="mb-1 block text-sm font-medium">ที่อยู่จัดส่ง</span>
+            <textarea name="address" class="h-24 w-full rounded-lg border-stone-300" placeholder="กรอกที่อยู่ หรือพิมพ์ว่า ขอส่งในแชท Line"></textarea>
+          </label>
+          <div class="grid gap-3 sm:grid-cols-2">
+            <label class="block">
+              <span class="mb-1 block text-sm font-medium">จำนวน</span>
+              <input name="qty" type="number" min="1" value="1" class="w-full rounded-lg border-stone-300">
+            </label>
+            <label class="block">
+              <span class="mb-1 block text-sm font-medium">ช่องทางชำระเงิน</span>
+              <select name="payment" class="w-full rounded-lg border-stone-300">
+                <option>โอนเงิน / PromptPay</option>
+                <option>เก็บเงินปลายทาง</option>
+                <option>ให้ทีมงานติดต่อกลับ</option>
+              </select>
+            </label>
+          </div>
+          <label class="block">
+            <span class="mb-1 block text-sm font-medium">หมายเหตุ</span>
+            <input name="note" class="w-full rounded-lg border-stone-300" placeholder="เช่น ต้องการใบกำกับภาษี / จัดส่งด่วน">
+          </label>
+          <p id="quickOrderMessage" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></p>
+          <button class="w-full rounded-xl bg-stone-900 px-5 py-4 text-lg font-bold text-white">ยืนยันสั่งซื้อ</button>
+        </form>
+      `)}
+      <div class="space-y-4">
+        ${card(`
+          <h2 class="mb-3 text-lg font-semibold">ขั้นตอนหลังสั่ง</h2>
+          <div class="space-y-3 text-sm text-stone-600">
+            <div class="flex gap-3"><span class="material-symbols-outlined text-green-600">check_circle</span><span>ระบบสร้างเลขออเดอร์ให้ทันที</span></div>
+            <div class="flex gap-3"><span class="material-symbols-outlined text-green-600">support_agent</span><span>ทีมงานติดต่อยืนยันยอดและที่อยู่</span></div>
+            <div class="flex gap-3"><span class="material-symbols-outlined text-green-600">payments</span><span>ลูกค้าชำระเงินผ่านช่องทางที่สะดวก</span></div>
+            <div class="flex gap-3"><span class="material-symbols-outlined text-green-600">local_shipping</span><span>แจ้งเลขพัสดุในหน้า Tracking</span></div>
+          </div>
+        `)}
+        ${card(`
+          <h2 class="mb-2 text-lg font-semibold">สำหรับทีมหลังบ้าน</h2>
+          <p class="text-sm text-stone-600">ข้อมูลหน้านี้ถูกเตรียมให้ส่งเข้า Google Sheet ได้ เมื่อใส่ URL ของ Google Apps Script ในระบบ</p>
+        `)}
+      </div>
+    </div>
+  `);
+}
+
+function thankYou() {
+  const order = state.lastOrder;
+  if (!order) {
+    return quickOrder();
+  }
+
+  return page("รับออเดอร์แล้ว", "ทีมงานจะติดต่อกลับเพื่อยืนยันรายละเอียด", `
+    ${card(`
+      <div class="text-center">
+        <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-700">
+          <span class="material-symbols-outlined text-4xl">check_circle</span>
+        </div>
+        <div class="text-sm text-stone-500">เลขออเดอร์</div>
+        <div class="text-3xl font-bold">${order.id}</div>
+        <p class="mx-auto mt-3 max-w-lg text-stone-600">บันทึกคำสั่งซื้อเรียบร้อยแล้ว กรุณาเก็บเลขออเดอร์นี้ไว้ ทีมงานจะติดต่อกลับเพื่อยืนยันยอดและการชำระเงิน</p>
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
+          <button onclick="setActive('tracking')" class="rounded-xl border border-stone-300 px-5 py-3 font-semibold">ดูสถานะพัสดุ</button>
+          <button onclick="setActive('quick')" class="rounded-xl bg-stone-900 px-5 py-3 font-semibold text-white">สั่งเพิ่ม</button>
+        </div>
+      </div>
+    `)}
+  `);
+}
+
 function card(body, extra = "") {
   return `<div class="rounded-xl border border-stone-200 bg-white p-5 ${extra}">${body}</div>`;
 }
 
 function statusPill(status) {
-  const tone = status === "รอชำระเงิน" ? "bg-amber-100 text-amber-700" : status === "สำเร็จแล้ว" ? "bg-green-100 text-green-700" : "bg-stone-100 text-stone-700";
+  const tone = status === "รอชำระเงิน" || status === "รอยืนยัน" ? "bg-amber-100 text-amber-700" : status === "สำเร็จแล้ว" ? "bg-green-100 text-green-700" : "bg-stone-100 text-stone-700";
   return `<span class="rounded-full px-3 py-1 text-xs font-semibold ${tone}">${status}</span>`;
 }
 
@@ -238,6 +364,15 @@ function authView(mode = "login") {
 
 function dashboard() {
   return page("สวัสดี, " + state.user.name, "ภาพรวมเครดิต คำสั่งซื้อ และสถานะล่าสุด", `
+    ${card(`
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <div class="text-lg font-semibold">พร้อมรับออเดอร์ใหม่</div>
+          <p class="text-sm text-stone-500">ลูกค้าสามารถสั่งแบบด่วนโดยไม่ต้องสมัครสมาชิกก่อน</p>
+        </div>
+        <button onclick="setActive('quick')" class="rounded-xl bg-stone-900 px-5 py-3 font-semibold text-white">เปิดหน้าสั่งด่วน</button>
+      </div>
+    `)}
     <div class="grid gap-4 md:grid-cols-4">
       ${card(`<div class="text-sm text-stone-500">เครดิตคงเหลือ</div><div class="mt-2 text-2xl font-bold">${baht(state.wallet.balance)}</div>`, "md:col-span-2")}
       ${card(`<div class="text-sm text-stone-500">ออเดอร์ทั้งหมด</div><div class="mt-2 text-2xl font-bold">${state.orders.length}</div>`)}
@@ -370,7 +505,7 @@ function help() {
 }
 
 function renderContent() {
-  const map = { dashboard, create: createOrder, orders, payment, tracking, wallet, documents, addresses, settings, help };
+  const map = { quick: quickOrder, thanks: thankYou, dashboard, create: createOrder, orders, payment, tracking, wallet, documents, addresses, settings, help };
   return map[state.active]();
 }
 
@@ -380,7 +515,7 @@ function renderAuth(mode) {
 }
 
 function render() {
-  if (!state.isAuthed) {
+  if (!state.isAuthed && state.active !== "quick" && state.active !== "thanks") {
     renderAuth("login");
     return;
   }
@@ -416,6 +551,52 @@ function bindAuth(mode) {
 }
 
 function bindForms() {
+  const quickOrderForm = el("quickOrderForm");
+  if (quickOrderForm) {
+    quickOrderForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(event.target));
+      const message = el("quickOrderMessage");
+
+      if (!data.name || !data.phone) {
+        message.textContent = "กรุณากรอกชื่อและเบอร์โทรก่อนยืนยันสั่งซื้อ";
+        message.classList.remove("hidden");
+        return;
+      }
+
+      const qty = Math.max(Number(data.qty || 1), 1);
+      const order = {
+        id: "TIY" + Date.now().toString().slice(-8),
+        shop: "Tube i Yen",
+        detail: `Tube i Yen Starter Set x ${qty}`,
+        date: new Date().toLocaleDateString("th-TH"),
+        status: "รอยืนยัน",
+        amount: qty * 1880,
+        weight: "รอจัดส่ง",
+        customer: {
+          name: data.name,
+          phone: data.phone,
+          address: data.address || "",
+          note: data.note || "",
+          payment: data.payment
+        },
+        timeline: [
+          ["รับออเดอร์แล้ว", new Date().toLocaleString("th-TH"), true],
+          ["รอทีมงานยืนยัน", "-", false],
+          ["รอชำระเงิน", "-", false],
+          ["เตรียมจัดส่ง", "-", false],
+          ["จัดส่งแล้ว", "-", false],
+          ["สำเร็จแล้ว", "-", false]
+        ]
+      };
+
+      saveOrder(order);
+      await submitToBackOffice("quick_order", order);
+      state.active = "thanks";
+      render();
+    });
+  }
+
   const orderForm = el("orderForm");
   if (orderForm) {
     orderForm.addEventListener("submit", event => {
