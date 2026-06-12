@@ -87,7 +87,7 @@ const state = {
   ]
 };
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbweMCOu00sEJTGADz01nbxKBM8IoAraO4oUAqDG4OP9XmvvWiyV-EVU5ofNyO9lJfAZ/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzfzSucGQM5lckaLAVOugspMIQ--kpsiK5EysWAFnw-BVcpf6is7g8RCwZWNlLsnHQ/exec";
 
 const menu = [
   ["quick", "bolt", "สั่งด่วน"],
