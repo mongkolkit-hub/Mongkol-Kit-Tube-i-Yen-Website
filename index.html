@@ -116,34 +116,39 @@
 
     <main class="flex-grow pt-20">
         <!-- Home Section -->
-        <section id="home" class="relative h-[85vh] @container">
-            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('assets%3Ahero-inner-world.png');">
-                <div class="absolute inset-0 bg-background-dark/40 misty-overlay"></div>
+        <section id="home" class="relative h-[85vh] min-h-[640px] @container">
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('assets%3Ahero-inner-world.png');">
+        <div class="absolute inset-0 bg-background-dark/55 misty-overlay"></div>
+    </div>
+    <div class="relative h-full flex items-center justify-center px-6">
+        <div class="max-w-[960px] text-center flex flex-col items-center gap-8">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary text-xs font-bold tracking-widest uppercase border border-primary/30">
+                ↩ กลับมาดูแลโลกภายใน
+            </span>
+            <div class="flex flex-col gap-4">
+                <h1 class="text-white text-4xl md:text-6xl font-black leading-tight tracking-tight font-display">
+                    โลกภายนอก<br/>
+                    ดึงความสนใจของเราออกไปตลอดเวลา<br/>
+                    <span class="text-primary">จนบางครั้ง เราลืมกลับมาดูแลโลกภายใน</span>
+                </h1>
+                <p class="text-slate-200 text-lg md:text-xl font-normal leading-relaxed max-w-[700px] mx-auto">
+                    ธูปไอเย็น Thai Healing Ritual™<br/>
+                    พิธีกรรมเล็ก ๆ ผ่านกลิ่นหอมและลมหายใจ<br/>
+                    เพื่อพาใจกลับมาอยู่กับตัวเอง<br/>
+                    ก่อนกลับไปใช้ชีวิตด้วยพลังงานที่เต็มเปี่ยม
+                </p>
             </div>
-            <div class="relative h-full flex items-center justify-center px-6">
-                <div class="max-w-[960px] text-center flex flex-col items-center gap-8">
-                    <span class="inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary text-xs font-bold tracking-widest uppercase border border-primary/30">
-                        First Batch Pre-order Open
-                    </span>
-                    <div class="flex flex-col gap-4">
-                        <h1 class="text-white text-5xl md:text-7xl font-black leading-tight tracking-[-0.033em] font-display">
-                            Win ทุกลมหายใจ<br/><span class="text-primary italic">ด้วย Cool Incense</span>
-                        </h1>
-                        <p class="text-slate-200 text-lg md:text-xl font-normal leading-relaxed max-w-[700px] mx-auto">
-                            ลมหายใจใหม่แห่งการสักการะ
-                        </p>
-                    </div>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="member.html" class="flex min-w-[200px] cursor-pointer items-center justify-center rounded-lg h-14 px-8 bg-primary text-white text-base font-bold transition-transform hover:scale-105">
-                            Pre-order Now
-                        </a>
-                        <button class="flex min-w-[200px] cursor-pointer items-center justify-center rounded-lg h-14 px-8 border border-white/20 bg-white/5 text-white text-base font-bold hover:bg-white/10 transition-colors">
-                            Watch Trailer
-                        </button>
-                    </div>
-                </div>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="member.html" class="flex min-w-[200px] cursor-pointer items-center justify-center rounded-lg h-14 px-8 bg-primary text-white text-base font-bold transition-transform hover:scale-105">
+                    ↩ กลับมาดูแลโลกภายใน
+                </a>
+                <a href="#products" class="flex min-w-[200px] cursor-pointer items-center justify-center rounded-lg h-14 px-8 border border-white/20 bg-white/5 text-white text-base font-bold hover:bg-white/10 transition-colors">
+                    ดูรายละเอียดสินค้า
+                </a>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
         <!-- About Philosophy Section -->
         <section id="about" class="py-24 px-6 lg:px-40 bg-background-dark">
